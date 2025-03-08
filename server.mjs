@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken"; 
 import CryptoJS from "crypto-js";
+import models from "./models/index.js";
 
 function randomHash() {
   // Gerar uma string única baseada no timestamp e dados aleatórios
@@ -10,6 +11,10 @@ function randomHash() {
   // Gerar o hash SHA-256
   return CryptoJS.SHA256(uniqueData).toString(CryptoJS.enc.Hex);
 }
+
+models.sequelize.sync().then(() => {
+  console.log("Banco de dados sincronizado!");
+});
 
 const app = express();
 app.use(express.json()); // ✅ Permite JSON no body
